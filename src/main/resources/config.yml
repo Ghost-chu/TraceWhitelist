@@ -27,11 +27,11 @@ database:
   # 下面的配置应该就不用说了吧
   host: localhost
   port: 3306
-  database: riaitemvoid
+  database: riawhitelist
   user: root
   password: passwd
   # 表前缀
-  prefix: "riaitemvoid_"
+  prefix: "riawhitelist_"
   # 使用 SSL
   usessl: false
   # 额外配置

@@ -50,13 +50,13 @@ public class DatabaseManager {
         String user = dbCfg.getString("user");
         String pass = dbCfg.getString("password");
         String host = dbCfg.getString("host");
-        String port = dbCfg.getString("port");
+        int port = dbCfg.getInt("port");
         String database = dbCfg.getString("database");
         boolean useSSL = dbCfg.getBoolean("usessl");
         config.setJdbcUrl("jdbc:mysql://" + host + ":" + port + "/" + database + "?useSSL=" + useSSL);
         config.setUsername(user);
         config.setPassword(pass);
-        return new SQLManagerImpl(new HikariDataSource(config), "DoDoSRV-SQLManager");
+        return new SQLManagerImpl(new HikariDataSource(config), "RIAWhitelist-SQLManager");
     }
 
     public DatabaseDriverType getDatabaseDriverType() {

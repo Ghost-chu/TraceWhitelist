@@ -8,6 +8,8 @@ import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.event.EventHandler;
 import net.md_5.bungee.event.EventPriority;
 
+import java.util.concurrent.CompletableFuture;
+
 public class WhitelistListener implements Listener {
     private final RIAWhitelist plugin;
 
@@ -17,14 +19,14 @@ public class WhitelistListener implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void handleWhitelist(PreLoginEvent event) {
+        String username = event.getConnection().getName();
+        if (username == null) {
+            event.setCancelled(true);
+            event.setCancelReason("[RIAWhitelist] Username in connection cannot be null");
+            return;
+        }
         event.registerIntent(plugin);
-        try {
-            String username = event.getConnection().getName();
-            if (username == null) {
-                event.setCancelled(true);
-                event.setCancelReason("[RIAWhitelist] Username in connection cannot be null");
-                return;
-            }
+        CompletableFuture.runAsync(() -> {
             try {
                 FastWhitelistQuery query = plugin.getWhitelistManager().fastCheckWhitelist(username).join();
                 if (!query.isWhitelisted()) {
@@ -40,9 +42,9 @@ public class WhitelistListener implements Listener {
                 e.printStackTrace();
                 event.setCancelled(true);
                 event.setCancelReason(LegacyComponentSerializer.legacySection().serialize(plugin.text("general.internal-error", e.getMessage())));
+            } finally {
+                event.completeIntent(plugin);
             }
-        } finally {
-            event.completeIntent(plugin);
-        }
+        });
     }
 }
