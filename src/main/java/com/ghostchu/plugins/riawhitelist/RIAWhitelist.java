@@ -71,7 +71,12 @@ public final class RIAWhitelist extends Plugin {
     }
 
     private void setupDatabase() {
-        this.databaseManager = new DatabaseManager(this);
+        try {
+            this.databaseManager = new DatabaseManager(this);
+        } catch (Exception e) {
+            e.printStackTrace();
+            getProxy().stop("[RIAWhitelist]" + e.getMessage());
+        }
     }
 
     public void saveConfig() {
