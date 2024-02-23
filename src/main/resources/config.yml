@@ -4,7 +4,7 @@ lang:
     reject-join-no-whitelist: ":( 此 ID 还未处于白名单中"
     reject-join-incorrect-cases: "您正在使用 {0} 加入服务器，但您申请的白名单为 {1}，请保持用户名大小写一致"
   wladd:
-    bad-arguments: "<red>参数错误：/riawladd <玩家ID> <电子邮件地址> <QQ号> <担保人（若无请填SakamotoSan）> <ZTH列车号（担保或史前时代，请填 ZTH-000）> <白名单添加备注>\n<gray>示例：/riawladd Ghost_chu ghostchu@qq.com 2908803755 SakamotoSan ZTH-110 2077年1月1日白名单批量发车"
+    bad-arguments: "<red>参数错误：/riawladd <玩家ID> <担保人（若无请填SakamotoSan）> <ZTH列车号（担保或史前时代，请填 ZTH-000）> <白名单添加备注>\n<gray>示例：/riawladd Ghost_chu SakamotoSan ZTH-110 2077年1月1日白名单批量发车"
     success: "<green><yellow>{0} (ID: {1})</yellow> 的白名单已成功添加"
     error-no-updates: "<red>添加失败，此玩家可能已经有白名单了，使用 /riawlquery <玩家ID> 查询白名单详情"
   wlremove:
