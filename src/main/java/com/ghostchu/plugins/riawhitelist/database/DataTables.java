@@ -18,8 +18,6 @@ public enum DataTables {
         table.addAutoIncrementColumn("id", true);
         table.addColumn("time", "DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP"); // 插入时间
         table.addColumn("player","VARCHAR(64) NOT NULL"); // 玩家ID，大小写敏感，添加时检查不敏感
-        table.addColumn("email","VARCHAR(255) NOT NULL"); // 联系方式（电子邮件）
-        table.addColumn("contact","VARCHAR(255) NOT NULL"); // 联系方式（QQ号）
         table.addColumn("operator","VARCHAR(64) NOT NULL"); // 操作员ID
         table.addColumn("guarantor", "VARCHAR(64) NULL");  // 担保人ID （可空）
         table.addColumn("train","VARCHAR(64) NULL");  // 火车ID （手动添加/担保：ZTH-000）

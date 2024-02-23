@@ -16,10 +16,6 @@ public class WhitelistRecord {
     @NotNull
     private String player;
     @NotNull
-    private String email;
-    @NotNull
-    private String contact;
-    @NotNull
     private String operator;
     @Nullable
     private String guarantor;

@@ -56,9 +56,8 @@ public class WhitelistManager {
                 return -1;
             }
             return DataTables.WHITELIST.createInsert()
-                    .setColumnNames("time", "player", "email", "contact", "operator", "guarantor", "train", "description", "deleteAt", "deleteReason", "deleteOperator")
-                    .setParams(new Timestamp(Instant.now().toEpochMilli()), record.getPlayer(), record.getEmail()
-                            , record.getContact(), record.getOperator(), record.getGuarantor(), record.getTrain(),
+                    .setColumnNames("time", "player", "operator", "guarantor", "train", "description", "deleteAt", "deleteReason", "deleteOperator")
+                    .setParams(new Timestamp(Instant.now().toEpochMilli()), record.getPlayer(), record.getOperator(), record.getGuarantor(), record.getTrain(),
                             record.getDescription(), record.getDeleteAt(), record.getDeleteReason(), record.getDeleteOperator())
                     .returnGeneratedKey()
                     .executeFuture(i -> i)
@@ -99,8 +98,6 @@ public class WhitelistManager {
                             set.getLong("id"),
                             set.getTimestamp("time").toInstant(),
                             set.getString("player"),
-                            set.getString("email"),
-                            set.getString("contact"),
                             set.getString("operator"),
                             set.getString("guarantor"),
                             set.getString("train"),

@@ -42,7 +42,7 @@ public class RIAWlQuery extends Command {
                         Component deleteAt = whitelistRecord.getDeleteAt() == 0 ? plugin.text("wlquery.no-delete-at") : Component.text(sdf.format(whitelistRecord.getDeleteAt()));
                         Component deleteOperator = whitelistRecord.getDeleteOperator() == null ? plugin.text("wlquery.no-delete-operator") : Component.text(whitelistRecord.getDeleteOperator());
                         Component deleteReason = whitelistRecord.getDeleteReason() == null ? plugin.text("wlquery.no-delete-reason") : Component.text(whitelistRecord.getDeleteReason());
-                        plugin.adventure().sender(commandSender).sendMessage(plugin.text("wlquery.entry", id, time, status, guarantor, operator, train, description, deleteAt, deleteOperator, deleteReason, whitelistRecord.getContact()));
+                        plugin.adventure().sender(commandSender).sendMessage(plugin.text("wlquery.entry", id, time, status, guarantor, operator, train, description, deleteAt, deleteOperator, deleteReason));
                     }
                 })
                 .exceptionally(err -> {

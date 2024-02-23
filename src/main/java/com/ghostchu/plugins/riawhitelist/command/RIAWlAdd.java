@@ -18,18 +18,16 @@ public class RIAWlAdd extends Command {
 
     @Override
     public void execute(CommandSender commandSender, String[] strings) {
-        if (strings.length < 6) {
+        if (strings.length < 4) {
             plugin.adventure().sender(commandSender).sendMessage(plugin.text("wladd.bad-arguments"));
             return;
         }
         String player = strings[0];
-        String email = strings[1];
-        String contact = strings[2];
         String operator = commandSender.getName();
-        String guarantor = strings[3];
-        String train = strings[4];
+        String guarantor = strings[1];
+        String train = strings[2];
         StringJoiner joiner = new StringJoiner(" ");
-        for (int i = 5; i < strings.length; i++) {
+        for (int i = 3; i < strings.length; i++) {
             joiner.add(strings[i]);
         }
         String description = joiner.toString();
@@ -43,8 +41,6 @@ public class RIAWlAdd extends Command {
                 0,
                 Instant.now(),
                 player,
-                email,
-                contact,
                 operator,
                 guarantor,
                 train,

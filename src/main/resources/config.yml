@@ -13,7 +13,7 @@ lang:
     success: "<green><yellow>{0}</yellow> 的白名单已成功移除"
   wlquery:
     bad-arguments: "<red>参数错误：/riawlquery <玩家ID>\n<gray>示例：/riawlremove Ghost_chu"
-    entry: "ID: {0} - {1} - {2}\n担保人：<gray>{3}</gray> 操作员：<gray>{4}</gray>\n发车号：<gray>{5}</gray> QQ号：<gray>{10}</gray>\n描述：<gray>{6}</gray>\n删除于：<gray>{7}</gray> 删除操作员：<gray>{8}</gray>\n删除原因：<gray>{9}</gray>"
+    entry: "ID: {0} - {1} - {2}\n担保人：<gray>{3}</gray> 操作员：<gray>{4}</gray>\n发车号：<gray>{5}</gray>\n描述：<gray>{6}</gray>\n删除于：<gray>{7}</gray> 删除操作员：<gray>{8}</gray>\n删除原因：<gray>{9}</gray>"
     valid: "<green>生效中</green>"
     invalid: "<red>被移除</red>"
     no-guarantor: "<gray>无担保人</gray>"
