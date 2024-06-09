@@ -5,11 +5,11 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.ghostchu.plugins</groupId>
-    <artifactId>RIAWhitelist</artifactId>
+    <artifactId>TraceWhitelist</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>RIAWhitelist</name>
+    <name>TraceWhitelist</name>
 
     <properties>
         <java.version>17</java.version>
@@ -51,15 +51,15 @@
                     <relocations>
                         <relocation>
                             <pattern>net.kyori.</pattern>
-                            <shadedPattern>com.ghostchu.plugins.riawhitelist.shade.net.kyori.</shadedPattern>
+                            <shadedPattern>com.ghostchu.plugins.twhitelist.shade.net.kyori.</shadedPattern>
                         </relocation>
                         <relocation>
                             <pattern>cc.carm.</pattern>
-                            <shadedPattern>com.ghostchu.plugins.riawhitelist.shade.cc.carm.</shadedPattern>
+                            <shadedPattern>com.ghostchu.plugins.twhitelist.shade.cc.carm.</shadedPattern>
                         </relocation>
                         <relocation>
                             <pattern>com.mysql.</pattern>
-                            <shadedPattern>com.ghostchu.plugins.riawhitelist.shade.com.mysql.</shadedPattern>
+                            <shadedPattern>com.ghostchu.plugins.twhitelist.shade.com.mysql.</shadedPattern>
                         </relocation>
                     </relocations>
                     <filters>

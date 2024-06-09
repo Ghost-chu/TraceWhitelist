@@ -1,19 +1,24 @@
 lang:
   general:
     internal-error: "<red>发生了一个内部错误：<white>{0}"
-    reject-join-no-whitelist: ":( 此 ID 还未处于白名单中"
-    reject-join-incorrect-cases: "您正在使用 {0} 加入服务器，但您申请的白名单为 {1}，请保持用户名大小写一致"
+    reject-join-no-whitelist: ":( 抱歉，您似乎没有此服务器的白名单，找一个好朋友来邀请你吧！"
+    player-not-exists: "<yellow>指定的玩家 {0} 不存在，请检查后再试！"
+    please-wait: "<yellow>请稍等……"
   wladd:
-    bad-arguments: "<red>参数错误：/riawladd <玩家ID> <担保人（若无请填SakamotoSan）> <ZTH列车号（担保或史前时代，请填 ZTH-000）> <白名单添加备注>\n<gray>示例：/riawladd Ghost_chu SakamotoSan ZTH-110 2077年1月1日白名单批量发车"
+    bad-arguments: "<red>参数错误：/wladd <玩家ID> <担保人> <批次号（担保或史前时代，请填 Trace-000）> <白名单添加备注>\n<gray>示例：/wladd Ghost_chu Shura_Dream Trace-110 2077年1月1日白名单批量发车"
     success: "<green><yellow>{0} (ID: {1})</yellow> 的白名单已成功添加"
     error-no-updates: "<red>添加失败，此玩家可能已经有白名单了，使用 /riawlquery <玩家ID> 查询白名单详情"
   wlremove:
-    bad-arguments: "<red>参数错误：/riawlremove <玩家ID> <删除原因>\n<gray>示例：/riawlremove Ghost_chu 用于测试删除功能"
+    bad-arguments: "<red>参数错误：/wlremove <玩家ID> <删除原因>\n<gray>示例：/wlremove Ghost_chu 用于测试删除功能"
     error-no-updates: "<red>删除失败，共 0 行数据被更新，指定要删除的玩家 ID 是否本就没有白名单？"
     success: "<green><yellow>{0}</yellow> 的白名单已成功移除"
+  wlinvite:
+    bad-arguments: "<red>参数错误：/wlinvite <玩家ID> <被邀请人简介，不填或敷衍填写将导致白名单被删除>\n<gray>示例：/wlinvite Ghost_chu 这是我的好朋友，从2016年开始我们就一起玩MC，现在我们一起来到了这里"
+    success: "<green><yellow>{0} (ID: {1})</yellow> 已被成功邀请到此服务器！\n<yellow>注意：您将对您邀请的玩家承担连带责任，请确保您已将服务器规则清楚的告知对方"
+    error-no-updates: "<green><yellow>添加失败，此玩家可能已经有白名单了，使用 /wlwlquery <玩家ID> 查询白名单详情"
   wlquery:
-    bad-arguments: "<red>参数错误：/riawlquery <玩家ID>\n<gray>示例：/riawlremove Ghost_chu"
-    entry: "ID: {0} - {1} - {2}\n担保人：<gray>{3}</gray> 操作员：<gray>{4}</gray>\n发车号：<gray>{5}</gray>\n描述：<gray>{6}</gray>\n删除于：<gray>{7}</gray> 删除操作员：<gray>{8}</gray>\n删除原因：<gray>{9}</gray>"
+    bad-arguments: "<red>参数错误：/wlquery <玩家ID>\n<gray>示例：/wlremove Ghost_chu"
+    entry: "ID: {0} - {1} - {2}\n担保人：<gray>{3}</gray> 操作员：<gray>{4}</gray>\n批次号：<gray>{5}</gray>\n描述：<gray>{6}</gray>\n删除于：<gray>{7}</gray> 删除操作员：<gray>{8}</gray>\n删除原因：<gray>{9}</gray>"
     valid: "<green>生效中</green>"
     invalid: "<red>被移除</red>"
     no-guarantor: "<gray>无担保人</gray>"
@@ -27,11 +32,11 @@ database:
   # 下面的配置应该就不用说了吧
   host: localhost
   port: 3306
-  database: riawhitelist
+  database: tracewhitelist
   user: root
   password: passwd
   # 表前缀
-  prefix: "riawhitelist_"
+  prefix: "tracewhitelist_"
   # 使用 SSL
   usessl: false
   # 额外配置

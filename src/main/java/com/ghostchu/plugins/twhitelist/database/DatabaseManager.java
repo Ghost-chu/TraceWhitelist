@@ -1,19 +1,19 @@
-package com.ghostchu.plugins.riawhitelist.database;
+package com.ghostchu.plugins.twhitelist.database;
 
 import cc.carm.lib.easysql.api.SQLManager;
 import cc.carm.lib.easysql.hikari.HikariConfig;
 import cc.carm.lib.easysql.hikari.HikariDataSource;
 import cc.carm.lib.easysql.manager.SQLManagerImpl;
-import com.ghostchu.plugins.riawhitelist.RIAWhitelist;
+import com.ghostchu.plugins.twhitelist.TraceWhitelist;
 import net.md_5.bungee.config.Configuration;
 
 public class DatabaseManager {
-    private final RIAWhitelist plugin;
+    private final TraceWhitelist plugin;
     private SQLManager sqlManager;
     private DatabaseDriverType databaseDriverType = null;
     private String prefix;
 
-    public DatabaseManager(RIAWhitelist plugin) {
+    public DatabaseManager(TraceWhitelist plugin) {
         this.plugin = plugin;
         init();
     }
@@ -56,7 +56,7 @@ public class DatabaseManager {
         config.setJdbcUrl("jdbc:mysql://" + host + ":" + port + "/" + database + "?useSSL=" + useSSL);
         config.setUsername(user);
         config.setPassword(pass);
-        return new SQLManagerImpl(new HikariDataSource(config), "RIAWhitelist-SQLManager");
+        return new SQLManagerImpl(new HikariDataSource(config), "TraceWhitelist-SQLManager");
     }
 
     public DatabaseDriverType getDatabaseDriverType() {

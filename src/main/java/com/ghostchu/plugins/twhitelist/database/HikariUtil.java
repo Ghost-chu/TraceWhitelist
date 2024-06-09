@@ -1,4 +1,4 @@
-package com.ghostchu.plugins.riawhitelist.database;
+package com.ghostchu.plugins.twhitelist.database;
 
 
 import net.md_5.bungee.config.Configuration;

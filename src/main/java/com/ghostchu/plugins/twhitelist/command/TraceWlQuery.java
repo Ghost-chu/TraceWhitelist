@@ -1,21 +1,26 @@
-package com.ghostchu.plugins.riawhitelist.command;
+package com.ghostchu.plugins.twhitelist.command;
 
-import com.ghostchu.plugins.riawhitelist.RIAWhitelist;
-import com.ghostchu.plugins.riawhitelist.manager.bean.WhitelistRecord;
+import com.ghostchu.plugins.twhitelist.NameMapper;
+import com.ghostchu.plugins.twhitelist.TraceWhitelist;
+import com.ghostchu.plugins.twhitelist.manager.bean.WhitelistRecord;
 import net.kyori.adventure.text.Component;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.plugin.Command;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Optional;
+import java.util.UUID;
 
-public class RIAWlQuery extends Command {
-    private final RIAWhitelist plugin;
+public class TraceWlQuery extends Command {
+    private final TraceWhitelist plugin;
     private final SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+    private final NameMapper nameMapper;
 
-    public RIAWlQuery(RIAWhitelist plugin) {
-        super("riawlquery", "riawhitelist.query", "riawhitelistquery", "rwlquery", "riawlcheck", "riawhitelistcheck", "rwlcheck");
+    public TraceWlQuery(TraceWhitelist plugin, NameMapper nameMapper) {
+        super("wlquery", "twhitelist.query");
         this.plugin = plugin;
+        this.nameMapper =nameMapper;
     }
 
     @Override
@@ -25,7 +30,12 @@ public class RIAWlQuery extends Command {
             return;
         }
         String player = strings[0];
-        plugin.getWhitelistManager().queryWhitelist(player)
+        Optional<UUID> uuid = nameMapper.getUUID(player).join();
+        if(uuid.isEmpty()){
+            plugin.adventure().sender(commandSender).sendMessage(plugin.text("wlquery.no-data"));
+            return;
+        }
+        plugin.getWhitelistManager().queryWhitelist(uuid.get())
                 .thenAccept(list -> {
                     if (list.isEmpty()) {
                         plugin.adventure().sender(commandSender).sendMessage(plugin.text("wlquery.no-data"));
@@ -35,12 +45,12 @@ public class RIAWlQuery extends Command {
                         long id = whitelistRecord.getId();
                         String time = sdf.format(new Date(whitelistRecord.getTime().toEpochMilli()));
                         Component status = whitelistRecord.getDeleteAt() == 0 ? plugin.text("wlquery.valid") : plugin.text("wlquery.invalid");
-                        Component guarantor = whitelistRecord.getGuarantor() == null ? plugin.text("wlquery.no-guarantor") : Component.text(whitelistRecord.getGuarantor());
-                        String operator = whitelistRecord.getOperator();
+                        Component guarantor = whitelistRecord.getGuarantor() == null ? plugin.text("wlquery.no-guarantor") : Component.text(nameMapper.getUsername(whitelistRecord.getGuarantor()).join().orElse("Unknown"));
+                        UUID operator = whitelistRecord.getOperator();
                         String train = whitelistRecord.getTrain();
                         Component description = Component.text(whitelistRecord.getDescription());
                         Component deleteAt = whitelistRecord.getDeleteAt() == 0 ? plugin.text("wlquery.no-delete-at") : Component.text(sdf.format(whitelistRecord.getDeleteAt()));
-                        Component deleteOperator = whitelistRecord.getDeleteOperator() == null ? plugin.text("wlquery.no-delete-operator") : Component.text(whitelistRecord.getDeleteOperator());
+                        Component deleteOperator = whitelistRecord.getDeleteOperator() == null ? plugin.text("wlquery.no-delete-operator") : Component.text(nameMapper.getUsername(whitelistRecord.getDeleteOperator()).join().orElse("Unknown"));
                         Component deleteReason = whitelistRecord.getDeleteReason() == null ? plugin.text("wlquery.no-delete-reason") : Component.text(whitelistRecord.getDeleteReason());
                         plugin.adventure().sender(commandSender).sendMessage(plugin.text("wlquery.entry", id, time, status, guarantor, operator, train, description, deleteAt, deleteOperator, deleteReason));
                     }

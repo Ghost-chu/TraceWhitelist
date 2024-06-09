@@ -1,4 +1,4 @@
-package com.ghostchu.plugins.riawhitelist.manager.bean;
+package com.ghostchu.plugins.twhitelist.manager.bean;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -6,6 +6,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.time.Instant;
+import java.util.UUID;
 
 @AllArgsConstructor
 @Data
@@ -14,11 +15,11 @@ public class WhitelistRecord {
     @NotNull
     private Instant time;
     @NotNull
-    private String player;
+    private UUID player;
     @NotNull
-    private String operator;
+    private UUID operator;
     @Nullable
-    private String guarantor;
+    private UUID guarantor;
     @Nullable
     private String train;
     @NotNull
@@ -27,5 +28,5 @@ public class WhitelistRecord {
     @Nullable
     private String deleteReason;
     @Nullable
-    private String deleteOperator;
+    private UUID deleteOperator;
 }

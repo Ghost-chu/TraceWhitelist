@@ -1,12 +1,13 @@
-package com.ghostchu.plugins.riawhitelist;
+package com.ghostchu.plugins.twhitelist;
 
 import cc.carm.lib.easysql.EasySQL;
-import com.ghostchu.plugins.riawhitelist.command.RIAWlAdd;
-import com.ghostchu.plugins.riawhitelist.command.RIAWlQuery;
-import com.ghostchu.plugins.riawhitelist.command.RIAWlRemove;
-import com.ghostchu.plugins.riawhitelist.database.DatabaseManager;
-import com.ghostchu.plugins.riawhitelist.listener.WhitelistListener;
-import com.ghostchu.plugins.riawhitelist.manager.WhitelistManager;
+import com.ghostchu.plugins.twhitelist.command.TraceWlAdd;
+import com.ghostchu.plugins.twhitelist.command.TraceWlInvite;
+import com.ghostchu.plugins.twhitelist.command.TraceWlQuery;
+import com.ghostchu.plugins.twhitelist.command.TraceWlRemove;
+import com.ghostchu.plugins.twhitelist.database.DatabaseManager;
+import com.ghostchu.plugins.twhitelist.listener.WhitelistListener;
+import com.ghostchu.plugins.twhitelist.manager.WhitelistManager;
 import lombok.Getter;
 import lombok.NonNull;
 import net.kyori.adventure.platform.bungeecord.BungeeAudiences;
@@ -28,7 +29,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.logging.Level;
 
-public final class RIAWhitelist extends Plugin {
+public final class TraceWhitelist extends Plugin {
     private Configuration configuration;
     @Getter
     private DatabaseManager databaseManager;
@@ -36,6 +37,7 @@ public final class RIAWhitelist extends Plugin {
     private WhitelistManager whitelistManager;
 
     private BungeeAudiences adventure;
+    private NameMapper nameMapper;
 
     public @NonNull BungeeAudiences adventure() {
         if (this.adventure == null) {
@@ -51,11 +53,13 @@ public final class RIAWhitelist extends Plugin {
         reloadConfig();
         this.adventure = BungeeAudiences.create(this);
         setupDatabase();
-        this.whitelistManager = new WhitelistManager(this, databaseManager);
-        getProxy().getPluginManager().registerCommand(this, new RIAWlAdd(this));
-        getProxy().getPluginManager().registerCommand(this, new RIAWlRemove(this));
-        getProxy().getPluginManager().registerCommand(this, new RIAWlQuery(this));
-        getProxy().getPluginManager().registerListener(this, new WhitelistListener(this));
+        this.nameMapper = new NameMapper(databaseManager.getSqlManager());
+        this.whitelistManager = new WhitelistManager(this, databaseManager, nameMapper);
+        getProxy().getPluginManager().registerCommand(this, new TraceWlAdd(this, nameMapper));
+        getProxy().getPluginManager().registerCommand(this, new TraceWlRemove(this, nameMapper));
+        getProxy().getPluginManager().registerCommand(this, new TraceWlQuery(this, nameMapper));
+        getProxy().getPluginManager().registerCommand(this, new TraceWlInvite(this, nameMapper));
+        getProxy().getPluginManager().registerListener(this, new WhitelistListener(this, nameMapper));
     }
 
     @Override
@@ -75,7 +79,7 @@ public final class RIAWhitelist extends Plugin {
             this.databaseManager = new DatabaseManager(this);
         } catch (Exception e) {
             e.printStackTrace();
-            getProxy().stop("[RIAWhitelist]" + e.getMessage());
+            getProxy().stop("[TraceWhitelist]" + e.getMessage());
         }
     }
 

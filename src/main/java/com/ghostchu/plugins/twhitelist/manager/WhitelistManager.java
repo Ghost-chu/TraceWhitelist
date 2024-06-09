@@ -1,11 +1,12 @@
-package com.ghostchu.plugins.riawhitelist.manager;
+package com.ghostchu.plugins.twhitelist.manager;
 
 import cc.carm.lib.easysql.api.SQLQuery;
-import com.ghostchu.plugins.riawhitelist.RIAWhitelist;
-import com.ghostchu.plugins.riawhitelist.database.DataTables;
-import com.ghostchu.plugins.riawhitelist.database.DatabaseManager;
-import com.ghostchu.plugins.riawhitelist.manager.bean.FastWhitelistQuery;
-import com.ghostchu.plugins.riawhitelist.manager.bean.WhitelistRecord;
+import com.ghostchu.plugins.twhitelist.NameMapper;
+import com.ghostchu.plugins.twhitelist.TraceWhitelist;
+import com.ghostchu.plugins.twhitelist.database.DataTables;
+import com.ghostchu.plugins.twhitelist.database.DatabaseManager;
+import com.ghostchu.plugins.twhitelist.manager.bean.FastWhitelistQuery;
+import com.ghostchu.plugins.twhitelist.manager.bean.WhitelistRecord;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -13,36 +14,31 @@ import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
 public class WhitelistManager {
     private final DatabaseManager db;
-    private final RIAWhitelist plugin;
+    private final TraceWhitelist plugin;
 
-    public WhitelistManager(RIAWhitelist plugin, DatabaseManager db) {
+    public WhitelistManager(TraceWhitelist plugin, DatabaseManager db, NameMapper nameMapper) {
         this.plugin = plugin;
         this.db = db;
     }
 
-    public CompletableFuture<FastWhitelistQuery> fastCheckWhitelist(String name) {
+    public CompletableFuture<FastWhitelistQuery> fastCheckWhitelist(UUID uuid) {
         return CompletableFuture.supplyAsync(() -> {
             try (SQLQuery query = DataTables.WHITELIST.createQuery()
-                    .addCondition("player", name)
+                    .addCondition("player", uuid)
                     .addCondition("deleteAt", 0L)
                     .setLimit(1)
                     .build().execute();
                  ResultSet set = query.getResultSet()) {
                 if (set.next()) {
                     long id = set.getLong("id");
-                    String player = set.getString("player");
-                    // 大小写欺骗检查
-                    if (player.equals(name)) {
-                        return new FastWhitelistQuery(true, true, player, id);
-                    } else {
-                        return new FastWhitelistQuery(false, true, player, id);
-                    }
+                    return new FastWhitelistQuery(true, id);
                 }
-                return new FastWhitelistQuery(false, false, null, -1);
+                return new FastWhitelistQuery(false, -1);
             } catch (SQLException e) {
                 throw new RuntimeException("在数据库中查询白名单（快速）时出现错误：" + e.getMessage(), e);
             }
@@ -65,9 +61,9 @@ public class WhitelistManager {
         });
     }
 
-    public CompletableFuture<Integer> removeWhitelist(String name, String operator, String reason) {
+    public CompletableFuture<Integer> removeWhitelist(UUID uuid, UUID operator, String reason) {
         return CompletableFuture.supplyAsync(() -> {
-            FastWhitelistQuery whitelistQuery = fastCheckWhitelist(name).join();
+            FastWhitelistQuery whitelistQuery = fastCheckWhitelist(uuid).join();
             if (!whitelistQuery.isWhitelisted()) {
                 return -1;
             }
@@ -85,11 +81,11 @@ public class WhitelistManager {
         });
     }
 
-    public CompletableFuture<List<WhitelistRecord>> queryWhitelist(String name) {
+    public CompletableFuture<List<WhitelistRecord>> queryWhitelist(UUID uuid) {
         return CompletableFuture.supplyAsync(() -> {
             List<WhitelistRecord> records = new ArrayList<>();
             try (SQLQuery query = DataTables.WHITELIST.createQuery()
-                    .addCondition("player", name)
+                    .addCondition("player", uuid)
                     .orderBy("time", true)
                     .build().execute();
                  ResultSet set = query.getResultSet()) {
@@ -97,14 +93,14 @@ public class WhitelistManager {
                     records.add(new WhitelistRecord(
                             set.getLong("id"),
                             set.getTimestamp("time").toInstant(),
-                            set.getString("player"),
-                            set.getString("operator"),
-                            set.getString("guarantor"),
+                            UUID.fromString(set.getString("player")),
+                            UUID.fromString("operator"),
+                            UUID.fromString("guarantor"),
                             set.getString("train"),
                             set.getString("description"),
                             set.getLong("deleteAt"),
                             set.getString("deleteReason"),
-                            set.getString("deleteOperator")
+                            UUID.fromString("deleteOperator")
                     ));
                 }
                 return records;

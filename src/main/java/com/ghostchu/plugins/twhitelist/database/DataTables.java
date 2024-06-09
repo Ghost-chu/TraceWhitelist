@@ -1,4 +1,4 @@
-package com.ghostchu.plugins.riawhitelist.database;
+package com.ghostchu.plugins.twhitelist.database;
 
 import cc.carm.lib.easysql.api.SQLManager;
 import cc.carm.lib.easysql.api.action.PreparedSQLUpdateAction;
@@ -20,13 +20,19 @@ public enum DataTables {
         table.addColumn("player","VARCHAR(64) NOT NULL"); // 玩家ID，大小写敏感，添加时检查不敏感
         table.addColumn("operator","VARCHAR(64) NOT NULL"); // 操作员ID
         table.addColumn("guarantor", "VARCHAR(64) NULL");  // 担保人ID （可空）
-        table.addColumn("train","VARCHAR(64) NULL");  // 火车ID （手动添加/担保：ZTH-000）
+        table.addColumn("train","VARCHAR(64) NULL");  // 火车ID （手动添加/担保：TRACE-000）
         table.addColumn("description", "VARCHAR(255) NOT NULL"); // 白名单添加原因
         table.addColumn("deleteAt", "BIGINT NOT NULL DEFAULT 0"); // 删除时间，0代表未删除
         table.addColumn("deleteReason", "VARCHAR(255) NULL"); //删除原因
-        table.addColumn("deleteOperator", "VARCHAR(255) NULL"); // 删除操作员
-        table.setIndex(IndexType.UNIQUE_KEY, "idx_riawhitelist_player", "player", "deleteAt");
-        table.setIndex(IndexType.INDEX, "idx_riawhitelist_contact", "contact");
+        table.addColumn("deleteOperator", "VARCHAR(64) NULL"); // 删除操作员
+        table.setIndex(IndexType.UNIQUE_KEY, "idx_tracewhitelist_player", "player", "deleteAt");
+        table.setIndex(IndexType.INDEX, "idx_tracewhitelist_contact", "player");
+    }),
+    USERNAME_MAPPING("username_mapping", (table) -> {
+        table.addAutoIncrementColumn("id", true);
+        table.addColumn("uuid","VARCHAR(64) NOT NULL"); // 玩家ID，大小写敏感，添加时检查不敏感
+        table.addColumn("name","VARCHAR(64) NOT NULL"); // 玩家ID，大小写敏感，添加时检查不敏感
+        table.setIndex(IndexType.UNIQUE_KEY, "idx_usrname_mapping", "uuid");
     });
     private final @NotNull String name;
     private final @NotNull SQLHandler<TableCreateBuilder> tableHandler;
