@@ -24,7 +24,7 @@ public class TraceWlInvite extends Command {
 
     @Override
     public void execute(CommandSender commandSender, String[] strings) {
-        if (strings.length < 3) {
+        if (strings.length < 2) {
             plugin.adventure().sender(commandSender).sendMessage(plugin.text("wlinvite.bad-arguments"));
             return;
         }
