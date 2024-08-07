@@ -9,10 +9,10 @@
 
 ## 指令
 
-* /wladd <玩家ID> <担保人> <批次号> <白名单添加备注> - 管理员命令，以指定理由添加指定玩家到白名单中
-* /wlremove <玩家ID> <删除原因> - 管理员命令，以指定理由将玩家从白名单中移除
-* /wlinvite/invite <玩家ID> <被邀请人简介> - 玩家命令，以指定理由邀请某个玩家
-* /wlquery <玩家ID> - 查询指定玩家的白名单审计记录
+* /wladd <玩家ID> <担保人> <批次号> <白名单添加备注> - 管理员命令，以指定理由添加指定玩家到白名单中 (twhitelist.add)
+* /wlremove <玩家ID> <删除原因> - 管理员命令，以指定理由将玩家从白名单中移除 (twhitelist.remove)
+* /wlinvite/invite <玩家ID> <被邀请人简介> - 玩家命令，以指定理由邀请某个玩家 (twhitelist.invite)
+* /wlquery <玩家ID> - 查询指定玩家的白名单审计记录 (twhitelist.query)
 
 ## 配置文件
 
