@@ -94,13 +94,13 @@ public class WhitelistManager {
                             set.getLong("id"),
                             set.getTimestamp("time").toInstant(),
                             UUID.fromString(set.getString("player")),
-                            UUID.fromString("operator"),
-                            UUID.fromString("guarantor"),
+                            UUID.fromString(set.getString("operator")),
+                            UUID.fromString(set.getString("guarantor")),
                             set.getString("train"),
                             set.getString("description"),
                             set.getLong("deleteAt"),
                             set.getString("deleteReason"),
-                            UUID.fromString("deleteOperator")
+                            UUID.fromString(set.getString("deleteOperator"))
                     ));
                 }
                 return records;
